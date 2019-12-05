@@ -1,0 +1,120 @@
+#!/bin/bash -ex
+
+NAME="${0##*/}"
+export PATH=$PATH:/var/vcap/packages/docker/bin
+export PATH=/var/vcap/packages/calico/:$PATH
+
+<%-
+  def get_url(server, port)
+    if link('etcd').p('etcd.dns_suffix', false) != false
+      node_name = "#{server.name.gsub('_','-')}-#{server.index}"
+      return "https://#{node_name}.#{link('etcd').p('etcd.dns_suffix')}:#{port}"
+    else
+      return "https://#{server.address}:#{port}"
+    end
+  end
+-%>
+
+RUN_DIR=/var/vcap/sys/run/calico
+PIDFILE=$RUN_DIR/calico.pid
+LOG_DIR=/var/vcap/sys/log/calico
+
+# shellcheck disable=SC1091
+. /var/vcap/packages/pid_utils/pid_utils.sh
+
+setup_directories() {
+  mkdir -p "$RUN_DIR" "$LOG_DIR"
+  chown -R vcap:vcap "$RUN_DIR" "$LOG_DIR"
+}
+
+send_process_stdout_to_logfile() {
+  exec 1>> "$LOG_DIR/$NAME.stdout.log"
+}
+
+send_process_stderr_to_logfile() {
+  exec 2>> "$LOG_DIR/$NAME.stderr.log"
+}
+
+start_calico() {
+  <% etcd_endpoints = link('etcd').instances.map { |server| get_url(server, 2379) }.join(",") %>
+
+  modprobe br_netfilter || true
+
+  mkdir -p /dev/net
+  mknod /dev/net/tun c 10 200 || true
+  echo 1 > /proc/sys/net/ipv4/ip_forward
+  mkdir -p /etc/cni/net.d
+  rm  /etc/cni/net.d/10-calico.conf || true
+
+cat  > /etc/cni/net.d/10-calico.conf <<EOF
+{
+"name": "calico-k8s-network",
+"cniVersion": "0.6.0",
+"type": "calico",
+"etcd_endpoints": "<% etcd_endpoints %>",
+"log_level": "info",
+"ipam": {
+"type": "calico-ipam"
+},
+"policy": {
+"type": "k8s"
+},
+"kubernetes": {
+"kubeconfig": "</PATH/TO/KUBECONFIG>"
+}
+}
+EOL
+
+
+export ETCD_ENDPOINTS=<%= etcd_endpoints %>
+export ETCD_KEY_FILE=/var/vcap/jobs/calico/config/etcd-client.key
+export ETCD_CERT_FILE=/var/vcap/jobs/calico/config/etcd-client.crt
+export ETCD_CA_CERT_FILE=/var/vcap/jobs/calico/config/etcd-ca.crt
+export DATASTORE_TYPE=etcdv3
+export CALICO_IPV4POOL_CIDR=p('pod-network-cidr')
+
+calicoc node run --node-image=calico/node:v3.10.1 \
+    1>> $LOG_DIR/calico.stdout.log \
+    2>> $LOG_DIR/calico.stderr.log
+}
+
+stop_calico() {
+  kill_and_wait "$PIDFILE"
+}
+
+pid() {
+  head -1 "$PIDFILE"
+}
+
+stop_associated_logging_processes() {
+  # shellcheck disable=SC2046
+  pkill -g $(get_group_pid)
+}
+
+get_group_pid() {
+  ps -ho pgrp "$(pid)"
+}
+
+case $1 in
+
+  start)
+    setup_directories
+    send_process_stdout_to_logfile
+    send_process_stderr_to_logfile
+
+    pid_guard "$PIDFILE" "Flanneld"
+
+    echo $$ > $PIDFILE
+    start_calico
+    ;;
+
+  stop)
+    stop_associated_logging_processes
+    stop_calico
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    ;;
+
+esac

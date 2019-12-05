@@ -1,0 +1,5 @@
+check process calico
+  with pidfile /var/vcap/sys/run/bpm/calico/calico.pid
+  start program "/var/vcap/jobs/bpm/bin/bpm start calico"
+  stop program "/var/vcap/jobs/bpm/bin/bpm stop calico"
+  group vcap

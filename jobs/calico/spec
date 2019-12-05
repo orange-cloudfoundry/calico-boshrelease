@@ -1,0 +1,38 @@
+---
+name: calico
+
+packages:
+- calico
+- cni
+ 
+templates:
+  config/bpm.yml: config/bpm.yml
+  bin/calico_ctl.erb: bin/calico_ctl
+  config/etcd-ca.crt.erb: config/etcd-ca.crt
+  config/etcd-client.crt.erb: config/etcd-client.crt
+  config/etcd-client.key.erb: config/etcd-client.key
+
+consumes:
+- name: etcd
+  type: etcd
+
+provides:
+- name: calico
+  type: calico
+  properties:
+  - port
+
+
+properties:
+  pod-network-cidr:
+    description: The pod networking cidr for pod network overlay
+    default: "10.200.0.0/16"
+  backend-type:
+    description: The network backend to use
+    default: "bird"
+  tls.etcdctl.ca:
+    description: CA for etcdctl client authentication
+  tls.etcdctl.certificate:
+    description: Certificate for etcdctl client authentication
+  tls.etcdctl.private_key:
+    description: Private key for etcdctl client authentication
