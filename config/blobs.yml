@@ -1,0 +1,18 @@
+calico/calico:
+  size: 35853024
+  sha: sha256:b32f932e5f115b12b4443797ad5a49fbe224fb3871c5224c8d410e3fc23e3ffe
+calico/calico-ipam:
+  size: 34939456
+  sha: sha256:d504087d5cc0d7c4b8eb5b6c522a7449513badc20a8648512f11129288557bd5
+calico/calico-kube-controllers.yaml:
+  size: 1195
+  sha: sha256:66d673560b4361f736d1d05347815cff7ec49d36adbe34290026ab9598e1b4ec
+calico/calicoctl:
+  size: 38908352
+  sha: sha256:fe063db4eefc605cc708fee3fb1f9f04f01a451f52546e2de2cf28b6239dc328
+calico/rbac-etcd-calico.yaml:
+  size: 1976
+  sha: sha256:b30a9d99eb7e8d309400c766a98183c4fb06bec2e957d0420aad82b48323fb45
+cni/cni-plugins-amd64.tgz:
+  size: 17108856
+  sha: sha256:6ecc5c7dbb8e4296b0d0d017e5440618e19605b9aa3b146a2c29af492f299dc7

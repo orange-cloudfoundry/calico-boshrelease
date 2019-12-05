@@ -1,0 +1,12 @@
+---
+name: calico
+
+dependencies: []
+
+files:
+- calico/calicoctl
+- calico/calico
+- calico/calico-ipam
+- calico/calico-kube-controllers.yaml 
+- calico/rbac-etcd-calico.yaml
+- cni/cni-plugins-amd64.tgz
