@@ -3,11 +3,5 @@ name: calico
 dependencies: []
 
 files:
-- calico/calicoctl
-- calico/calico_node_3_10_1.tar
-- calico/calico
-- calico/calico-ipam
-- calico/calico-kube-controllers.yaml 
-- calico/rbac-etcd-calico.yaml
-- cni/cni-plugins-amd64.tgz
-- docker-images/calico_node_v3_10_1.tgz
+- calico/*
+- cni/*

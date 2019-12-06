@@ -15,11 +15,6 @@ consumes:
 - name: etcd
   type: etcd
 
-provides:
-- name: calico
-  type: calico
-
-
 
 properties:
   pod-network-cidr:
