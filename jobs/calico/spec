@@ -3,8 +3,7 @@ name: calico
 
 packages:
 - calico
-- cni
- 
+
 templates:
   config/bpm.yml: config/bpm.yml
   bin/calico_ctl.erb: bin/calico_ctl
