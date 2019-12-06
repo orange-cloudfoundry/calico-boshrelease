@@ -42,7 +42,7 @@ cat  > /etc/cni/net.d/10-calico.conf <<EOF
   "log_level": "info",
   "ipam": {
     "type": "calico-ipam"
-  },
+    },
   "policy": {
   }
 }
@@ -51,5 +51,5 @@ EOF
 calicoctl node run --node-image=calico/node:v3.10.1 \
     1>> $LOG_DIR/calico.stdout.log \
     2>> $LOG_DIR/calico.stderr.log
-}
+
 

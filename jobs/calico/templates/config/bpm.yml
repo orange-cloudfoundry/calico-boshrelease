@@ -1,7 +1,7 @@
 ---
 processes:
 - name: calico
-  executable: /var/vcap/packages/calico/bin/calico_ctl
+  executable: /var/vcap/jobs/calico/bin/calico_ctl
   args: []
   ephemeral_disk: true
   persistent_disk: false
