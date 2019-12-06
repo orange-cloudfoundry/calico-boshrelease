@@ -5,6 +5,7 @@ dependencies: []
 
 files:
 - calico/calicoctl
+- calico/calico_node_3_10_1.tar
 - calico/calico
 - calico/calico-ipam
 - calico/calico-kube-controllers.yaml 
