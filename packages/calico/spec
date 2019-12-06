@@ -1,6 +1,5 @@
 ---
 name: calico
-
 dependencies: []
 
 files:
@@ -11,3 +10,4 @@ files:
 - calico/calico-kube-controllers.yaml 
 - calico/rbac-etcd-calico.yaml
 - cni/cni-plugins-amd64.tgz
+- docker-images/calico_node_v3_10_1.tgz

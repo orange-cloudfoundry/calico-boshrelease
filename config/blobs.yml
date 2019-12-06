@@ -7,9 +7,6 @@ calico/calico-ipam:
 calico/calico-kube-controllers.yaml:
   size: 1195
   sha: sha256:66d673560b4361f736d1d05347815cff7ec49d36adbe34290026ab9598e1b4ec
-calico/calico_node_3_10_1.tar:
-  size: 196449280
-  sha: sha256:834122becf5f926cbef54f5f7e9265d771aef9eba51bed20d01acdf4bee23c19
 calico/calicoctl:
   size: 38908352
   sha: sha256:fe063db4eefc605cc708fee3fb1f9f04f01a451f52546e2de2cf28b6239dc328

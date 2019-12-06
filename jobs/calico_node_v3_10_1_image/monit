@@ -1,0 +1,5 @@
+check process calico_node_v3_10_1_image
+  with pidfile /var/vcap/sys/run/calico_node_v3_10_1_image/calico_node_v3_10_1_image.pid
+  start program "/var/vcap/jobs/calico_node_v3_10_1_image/bin/monit_debugger install_ctl '/var/vcap/jobs/calico_node_v3_10_1_image/bin/install_ctl start'"
+  stop program "/var/vcap/jobs/calico_node_v3_10_1_image/bin/monit_debugger install_ctl '/var/vcap/jobs/calico_node_v3_10_1_image/bin/install_ctl stop'"
+  group vcap
