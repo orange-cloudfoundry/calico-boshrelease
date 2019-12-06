@@ -1,1 +1,5 @@
+blobstore:
+  provider: s3
+  options:
+    bucket_name: orange-calico-boshrelease
 final_name: calico
