@@ -19,8 +19,7 @@ consumes:
 provides:
 - name: calico
   type: calico
-  properties:
-  - port
+
 
 
 properties:

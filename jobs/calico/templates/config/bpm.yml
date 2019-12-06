@@ -1,12 +1,11 @@
 ---
 processes:
 - name: calico
-  executable: /var/vcap/packages/calico/bin/calico
+  executable: /var/vcap/packages/calico/bin/calico_ctl
   args: []
   ephemeral_disk: true
   persistent_disk: false
-  env:
-    PORT: <%= p("port") %>
+
   limits:
     memory: 1G
     open_files: 1024
