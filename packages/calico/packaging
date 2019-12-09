@@ -1,6 +1,6 @@
 set -e
 cp -a ${BOSH_COMPILE_TARGET}/calico/* ${BOSH_INSTALL_TARGET}/
-cp -a docker-images/* $BOSH_INSTALL_TARGET
+
 
 cd ${BOSH_INSTALL_TARGET}
 chmod +x calicoctl
